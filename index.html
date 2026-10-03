@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Website resmi SD NEGERI PORUNTU, Kecamatan Marawola Barat, Kabupaten Sigi.">
+<meta name="theme-color" content="#0b5ed7">
+<title>SD NEGERI PORUNTU</title>
+<link rel="icon" href="logo-poruntu.jpeg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <img src="logo-poruntu.jpeg" class="login-logo" alt="Logo SD NEGERI PORUNTU">
+    <div class="eyebrow">PANEL ADMIN</div>
+    <h1>SD NEGERI PORUNTU</h1>
+    <p class="login-sub">Masuk untuk mengelola seluruh informasi website sekolah.</p>
+    <form id="loginForm">
+      <label>Username<input id="username" autocomplete="username" required></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password" required></label>
+      <button class="btn primary full" type="submit">Masuk ke Panel Admin</button>
+      <div id="loginError" class="form-error"></div>
+    </form>
+    <button type="button" class="btn ghost full" style="margin-top:10px" onclick="showPublicStatic()">🌐 Lihat Website Publik</button><small>Panel admin berada di tampilan awal. Website publik dapat dibuka tanpa login.</small>
+  </div>
+</div>
+<div id="publicOnly" class="hidden"></div>
+
+<div id="app" class="hidden">
+  <header class="topbar">
+    <div class="brand">
+      <img src="logo-poruntu.jpeg" alt="Logo">
+      <div><strong>SD NEGERI PORUNTU</strong><span>Panel Admin & Preview</span></div>
+    </div>
+    <div class="top-actions">
+      <button class="btn ghost" id="publicBtn">🌐 Preview Publik</button>
+      <button class="btn danger-outline" id="logoutBtn">Keluar</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <button class="nav-item active" data-target="dashboard">🏠 Dashboard</button>
+      <button class="nav-item" data-target="school">🏫 Profil Sekolah</button>
+      <button class="nav-item" data-target="principal">👨‍🏫 Kepala Sekolah</button>
+      <button class="nav-item" data-target="teachers">👩‍🏫 Guru (18 Slot)</button>
+      <button class="nav-item" data-target="admins">🧑‍💼 Tenaga Administrasi</button>
+      <button class="nav-item" data-target="facilities">🏢 Sarpras</button>
+      <button class="nav-item" data-target="spmb">📝 SPMB</button>
+      <button class="nav-item" data-target="photos">🖼️ Foto Sekolah</button>
+      <button class="nav-item" data-target="damages">🛠️ Kerusakan Sekolah</button>
+      <button class="nav-item" data-target="news">📢 Berita & Pengumuman</button>
+      <button class="nav-item" data-target="extracurricular">🏅 Ekstrakurikuler</button>
+      <button class="nav-item" data-target="appearance">🎨 Tampilan Website</button>
+      <button class="nav-item" data-target="preview">🌐 Website Publik</button>
+    </aside>
+
+    <main class="main">
+      <section id="dashboard" class="panel active">
+        <div class="page-head"><div><div class="eyebrow">CONTROL CENTER</div><h2>Dashboard SD NEGERI PORUNTU</h2><p>Kelola profil, guru, SPMB, foto, berita, fasilitas, dan tampilan website.</p></div><button class="btn primary" onclick="showPanel('preview')">Lihat Website</button></div>
+        <div class="stat-grid" id="stats"></div>
+        <div class="dashboard-grid">
+          <div class="card"><h3>Akses cepat</h3><div class="quick-grid">
+            <button onclick="showPanel('school')">Profil Sekolah</button><button onclick="showPanel('teachers')">Data Guru</button><button onclick="showPanel('spmb')">SPMB</button><button onclick="showPanel('photos')">Foto Sekolah</button><button onclick="showPanel('damages')">Kerusakan</button><button onclick="showPanel('appearance')">Warna & Background</button>
+          </div></div>
+          <div class="card"><h3>Catatan</h3><ul class="clean-list"><li>Semua perubahan tersimpan pada server.</li><li>Gambar maksimal 5 MB per file.</li><li>Gunakan menu Preview Publik untuk melihat tampilan pengunjung.</li></ul></div>
+        </div>
+      </section>
+
+      <section id="school" class="panel">
+        <div class="page-head"><div><div class="eyebrow">PROFIL</div><h2>Profil Sekolah</h2><p>Data identitas, visi, misi, motto, dan jumlah siswa.</p></div><button class="btn primary" onclick="saveSchool()">Simpan Perubahan</button></div>
+        <div class="card form-grid">
+          <label>Nama Sekolah<input id="schoolName"></label><label>NPSN<input id="npsn"></label><label>Kurikulum<input id="curriculum"></label><label>Email Sekolah<input id="schoolEmail" type="email"></label><label>No. HP Sekolah<input id="schoolPhone"></label><label>Facebook<input id="facebook"></label><label class="span-2">Alamat<textarea id="address"></textarea></label><label class="span-2">Visi<textarea id="vision"></textarea></label><label class="span-2">Motto / Judul Program<textarea id="mottoTitle"></textarea></label><label class="span-2">Deskripsi Motto / Program<textarea id="mottoText"></textarea></label>
+        </div>
+        <div class="card"><h3>Misi</h3><div id="missionEditor"></div><button class="btn secondary" onclick="addMission()">+ Tambah Misi</button></div>
+        <div class="card"><h3>Jumlah Siswa</h3><div class="form-grid three"><label>Total<input id="studentTotal" type="number"></label><label>Perempuan<input id="studentFemale" type="number"></label><label>Laki-laki<input id="studentMale" type="number"></label></div></div>
+      </section>
+
+      <section id="principal" class="panel">
+        <div class="page-head"><div><div class="eyebrow">PIMPINAN</div><h2>Kepala Sekolah</h2><p>Informasi kepala sekolah yang tampil di beranda.</p></div><button class="btn primary" onclick="savePrincipal()">Simpan</button></div>
+        <div class="card form-grid">
+          <label>Nama<input id="principalName"></label><label>NIP<input id="principalNip"></label><label>No. HP<input id="principalPhone"></label><label>Email<input id="principalEmail" type="email"></label>
+          <div class="image-field span-2"><div id="principalPreview" class="image-preview"></div><input id="principalPhoto" type="file" accept="image/*"><button class="btn secondary" onclick="uploadPrincipalPhoto()">Unggah Foto</button></div>
+        </div>
+      </section>
+
+      <section id="teachers" class="panel">
+        <div class="page-head"><div><div class="eyebrow">SUMBER DAYA MANUSIA</div><h2>Panel Guru — 18 Slot</h2><p>6 kelas induk, 6 kelas jauh, 2 PJOK, 2 Pendidikan Agama Kristen, 2 Mulok.</p></div></div>
+        <div id="teacherGrid" class="entity-grid"></div>
+      </section>
+
+      <section id="admins" class="panel">
+        <div class="page-head"><div><div class="eyebrow">ADMINISTRASI</div><h2>Tenaga Administrasi — 3 Slot</h2><p>Nama, NIP, jabatan, dan foto dapat diedit admin.</p></div></div>
+        <div id="adminGrid" class="entity-grid"></div>
+      </section>
+
+      <section id="facilities" class="panel">
+        <div class="page-head"><div><div class="eyebrow">SARANA & PRASARANA</div><h2>Sarpras Sekolah</h2><p>Kelola Gedung A, Gedung B, dan Gedung C.</p></div></div>
+        <div id="facilityGrid" class="entity-grid"></div>
+      </section>
+
+      <section id="spmb" class="panel">
+        <div class="page-head"><div><div class="eyebrow">PPDB / SPMB</div><h2>Panel SPMB</h2><p>Informasi penerimaan peserta didik baru yang dapat diperbarui kapan saja.</p></div><button class="btn primary" onclick="saveSPMB()">Simpan SPMB</button></div>
+        <div class="card form-grid"><label class="span-2">Judul<input id="spmbTitle"></label><label class="span-2">Deskripsi<textarea id="spmbDesc"></textarea></label><label>Kontak<input id="spmbContact"></label><label>Link Pendaftaran<input id="spmbLink" placeholder="https://..."></label></div>
+        <div class="card"><h3>Persyaratan</h3><div id="requirements"></div><button class="btn secondary" onclick="addRequirement()">+ Tambah</button></div>
+        <div class="card"><h3>Jadwal</h3><div id="schedule"></div><button class="btn secondary" onclick="addSchedule()">+ Tambah</button></div>
+      </section>
+
+      <section id="photos" class="panel">
+        <div class="page-head"><div><div class="eyebrow">GALERI</div><h2>Foto Sekolah</h2><p>Tambah, edit judul/deskripsi, ganti foto, atau hapus.</p></div><button class="btn primary" onclick="addPhotoItem()">+ Tambah Foto</button></div>
+        <div id="photoGrid" class="entity-grid"></div>
+      </section>
+
+      <section id="damages" class="panel">
+        <div class="page-head"><div><div class="eyebrow">MONITORING</div><h2>Foto Kerusakan Sekolah</h2><p>Dokumentasikan kondisi, lokasi, status penanganan, dan catatan.</p></div><button class="btn primary" onclick="addDamage()">+ Tambah Kerusakan</button></div>
+        <div id="damageGrid" class="entity-grid"></div>
+      </section>
+
+      <section id="news" class="panel">
+        <div class="page-head"><div><div class="eyebrow">INFORMASI</div><h2>Berita & Pengumuman</h2><p>Kelola informasi yang tampil pada website publik.</p></div><button class="btn primary" onclick="addNews()">+ Tambah Berita</button></div>
+        <div id="newsGrid" class="entity-grid"></div>
+      </section>
+
+      <section id="extracurricular" class="panel">
+        <div class="page-head"><div><div class="eyebrow">PENGEMBANGAN DIRI</div><h2>Ekstrakurikuler</h2><p>3 panel program; setiap program memiliki 4 kolom foto.</p></div></div>
+        <div id="extraGrid"></div>
+      </section>
+
+      <section id="appearance" class="panel">
+        <div class="page-head"><div><div class="eyebrow">DESIGN SYSTEM</div><h2>Tampilan & Background</h2><p>Admin dapat mengganti warna utama, latar, permukaan kartu, teks, dan radius.</p></div><button class="btn primary" onclick="saveAppearance()">Terapkan Tampilan</button></div>
+        <div class="card form-grid appearance-grid">
+          <label>Warna Utama<input id="colorPrimary" type="color"></label><label>Warna Sekunder<input id="colorSecondary" type="color"></label><label>Warna Aksen<input id="colorAccent" type="color"></label><label>Background<input id="colorBackground" type="color"></label><label>Surface/Kartu<input id="colorSurface" type="color"></label><label>Warna Teks<input id="colorText" type="color"></label><label>Warna Teks Sekunder<input id="colorMuted" type="color"></label><label>Warna Hero<input id="colorHero" type="color"></label><label>Radius Kartu (px)<input id="radius" type="number" min="0" max="40"></label>
+        </div>
+        <div class="card"><h3>Pratinjau warna</h3><div class="appearance-preview"><div class="preview-hero">SD NEGERI PORUNTU<br><small>Belajar • Berkarakter • Peduli Lingkungan</small></div><div class="preview-card">Kartu informasi sekolah</div><button class="btn primary">Contoh Tombol</button></div></div>
+      </section>
+
+      <section id="preview" class="panel preview-panel">
+        <div class="page-head"><div><div class="eyebrow">PUBLIC WEBSITE</div><h2>Preview Website Publik</h2><p>Tampilan ini sama dengan yang dilihat pengunjung.</p></div></div>
+        <div id="publicSite"></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
